@@ -1,0 +1,10 @@
+[git]
+repository = "https://github.com/mrogur"
+packages = [
+    "mvn-single",
+    "mvn-multi",
+    "gradle-single",
+    "gradle-multi",
+    "gradle-kts-multi",
+    "gradle-kts"
+]
