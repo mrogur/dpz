@@ -3,12 +3,14 @@ import shutil
 import pprint as pp
 import zipfile
 import os.path as p
-from modules.git import Git
 
+from modules.git import Git
+from modules.bs.bs import get_build_system
 
 class App:
     def __init__(self, config):
         self.config = config
+        self.src_path = p.realpath("src")
 
     def pull_repositories(self):
         g = Git()
@@ -40,4 +42,12 @@ class App:
         self.unzip_projects()
 
     def run(self):
-        self.prepare_sources()
+        # self.prepare_sources()
+        self.collect_modules()
+
+    def collect_modules(self) -> list:
+        out = []
+        for directory in os.listdir(p.realpath("src")):
+            print(f"Processing {directory}")
+            out.append(get_build_system(os.path.join(self.src_path, directory)))
+        return out
