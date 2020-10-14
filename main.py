@@ -6,4 +6,3 @@ if __name__ == '__main__':
     config = s.load()
     app = App(config)
     app.run()
-

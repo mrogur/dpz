@@ -5,7 +5,8 @@ import zipfile
 import os.path as p
 
 from modules.git import Git
-from modules.bs.bs import get_build_system
+from modules.bs.bs import ModulesFactory
+
 
 class App:
     def __init__(self, config):
@@ -49,5 +50,5 @@ class App:
         out = []
         for directory in os.listdir(p.realpath("src")):
             print(f"Processing {directory}")
-            out.append(get_build_system(os.path.join(self.src_path, directory)))
+            out.append(ModulesFactory.get_build_system(os.path.join(self.src_path, directory), directory))
         return out

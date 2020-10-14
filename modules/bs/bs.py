@@ -1,11 +1,18 @@
 import os
+import xml.etree.ElementTree
 from pathlib import Path
 
 
 class BuildSystem:
-    def __init__(self, absolute_path: str, build_file_name: str):
+    def __init__(self, absolute_path: str, module_name: str, build_file_name: str):
+        self.module_name = module_name
         self.absolute_path = absolute_path
         self.build_file_name = build_file_name
+        self.build_file_path = os.path.join(absolute_path, build_file_name)
+        self.module_root = None
+        self.version = None
+        self.project_name = None
+        self.submodules = []
 
     def build(self):
         pass
@@ -13,20 +20,30 @@ class BuildSystem:
     def is_module_root(self):
         pass
 
-    def get_modules(self):
+    def parse_metadata(self):
         pass
+
+    def get_modules(self) -> list:
+        if self.project_name is None:
+            self.parse_metadata()
+
+        if self.is_module_root():
+            return [self]
+        # return ModulesFactory.get_build_system(os.path.join(self.absolute_path, self.module_name))
 
     def get_version(self):
         pass
 
 
-def get_build_system(absolute_path: str) -> BuildSystem:
-    if has_file(absolute_path, "pom.xml"):
-        return Maven(absolute_path, "pom.xml")
-    if has_file(absolute_path, "build.gradle"):
-        return GradleGroovyDsl(absolute_path, "build.gradle")
-    if has_file(absolute_path, "build.gradle.kts"):
-        return GradleKotlinDsl(absolute_path, "build.gradle.kts")
+class ModulesFactory:
+    @staticmethod
+    def get_build_system(absolute_path: str, module_name: str) -> list:
+        if has_file(absolute_path, "pom.xml"):
+            return Maven(absolute_path, module_name, "pom.xml").get_modules()
+        if has_file(absolute_path, "build.gradle"):
+            return GradleGroovyDsl(absolute_path, module_name, "build.gradle").get_modules()
+        if has_file(absolute_path, "build.gradle.kts"):
+            return GradleKotlinDsl(absolute_path, module_name, "build.gradle.kts").get_modules()
 
 
 def has_file(absolute_path: str, file_name) -> bool:
@@ -36,6 +53,27 @@ def has_file(absolute_path: str, file_name) -> bool:
 
 
 class Maven(BuildSystem):
+
+    def is_module_root(self):
+        if self.module_root is None:
+            return self.module_root
+
+    def parse_metadata(self):
+        tree = xml.etree.ElementTree.parse(self.build_file_path)
+        root = tree.getroot()
+        r = root.tag.rindex('}')
+        n = root.tag[:r + 1]
+
+        self.version = tree.findtext(f"{n}version")
+        self.project_name = tree.findtext(f"{n}artifactId")
+        modules = root.find(f"{n}modules")
+
+        if modules is None:
+            self.module_root = True
+            return
+
+        for m in modules.findall(f"{n}module"):
+            self.submodules.append(m.text)
 
     def build(self):
         pass
