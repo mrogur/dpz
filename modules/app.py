@@ -1,6 +1,8 @@
+import os
 import shutil
 import pprint as pp
-
+import zipfile
+import os.path as p
 from modules.git import Git
 
 
@@ -16,8 +18,15 @@ class App:
             print(f"Cloning repo: {repository_url}")
             g.cloneRepo(repository_url, package)
 
-    def unzip_projects(self):
-        pass
+    @staticmethod
+    def unzip_projects():
+        for zip_file in os.listdir(p.realpath("zip")):
+            if not zip_file.endswith(".zip"):
+                continue
+
+            zip_path = p.realpath(f"zip/{zip_file}")
+            with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+                zip_ref.extractall(p.realpath("src"))
 
     def build(self):
         pass
@@ -27,5 +36,8 @@ class App:
 
     def prepare_sources(self):
         pp.pprint(self.config)
-        self.pull_repositories()
+        # self.pull_repositories()
         self.unzip_projects()
+
+    def run(self):
+        self.prepare_sources()
