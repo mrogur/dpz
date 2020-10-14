@@ -1,3 +1,8 @@
+[dirs]
+zip = "zip"
+git = "git"
+src = "src"
+
 [git]
 repository = "https://github.com/mrogur"
 packages = [
