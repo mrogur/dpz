@@ -39,12 +39,14 @@ class App:
 
     def prepare_sources(self):
         pp.pprint(self.config)
-        # self.pull_repositories()
+        self.pull_repositories()
         self.unzip_projects()
 
-    def run(self):
-        # self.prepare_sources()
-        self.collect_modules()
+    def setup_directories(self):
+        for t in self.config['dirs']:
+            directory = p.realpath(t)
+            if not p.isdir(directory):
+                os.mkdir(directory)
 
     def collect_modules(self) -> list:
         out = []
@@ -52,3 +54,8 @@ class App:
             print(f"Processing {directory}")
             out.append(ModulesFactory.get_build_system(os.path.join(self.src_path, directory), directory))
         return out
+
+    def run(self):
+        self.setup_directories()
+        self.prepare_sources()
+        self.collect_modules()
