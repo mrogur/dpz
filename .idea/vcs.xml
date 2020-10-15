@@ -2,10 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/gradle-kts" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/gradle-kts-multi" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/gradle-multi" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/mvn-multi" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/src/mvn-single" vcs="Git" />
   </component>
 </project>

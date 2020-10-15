@@ -1,4 +1,5 @@
 import os
+import re
 import xml.etree.ElementTree
 from pathlib import Path
 
@@ -80,6 +81,25 @@ class Maven(BuildSystem):
 
 
 class Gradle(BuildSystem):
+    def parse_metadata(self):
+        self.parse_version()
+        self.parse_submodules()
+
+    def parse_version(self):
+        with open(self.build_file_path) as f:
+            conf = f.read()
+            m = re.search("version\\s+[\'\"]+(.*)[\'\"]+", conf)
+            if m is not None:
+                self.version = m.group(1)
+
+
+    def parse_submodules(self):
+        with open(self.build_file_path) as f:
+            conf = f.read()
+            m = re.search("version\\s+[\'\"]+(.*)[\'\"]+", conf)
+            if m is not None:
+                self.version = m.group(1)
+
     def build(self):
         pass
 
