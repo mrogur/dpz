@@ -94,9 +94,9 @@ class Gradle(BuildSystem):
 
 
     def parse_submodules(self):
-        with open(self.build_file_path) as f:
+        with open(os.path.join(self.absolute_path, "settings.gradle")) as f:
             conf = f.read()
-            m = re.search("version\\s+[\'\"]+(.*)[\'\"]+", conf)
+            m = re.search("include\\s+[\'\"]+(.*)[\'\"]+", conf)
             if m is not None:
                 self.version = m.group(1)
 

@@ -4,6 +4,12 @@ from bs.bs import Gradle
 
 
 class TestGradle(TestCase):
-    def test_parse_metadata(self):
+    def test_parse_version(self):
         g = Gradle(p.realpath("."), 'gradle-multi', 'build.gradle')
-        g.parse_metadata()
+        g.parse_version()
+        self.assertEqual("1.0-SHAPSHOT", g.version)
+
+    def test_parse_submodules(self):
+        g = Gradle(p.realpath("."), 'gradle-multi', 'build.gradle')
+        g.parse_submodules()
+        self.assertTrue(g.submodules)
