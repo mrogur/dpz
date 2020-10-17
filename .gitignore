@@ -1,4 +1,5 @@
-.idea
+.idea/
 src
 zip/
 git/
+Pipfile.lock
