@@ -73,8 +73,8 @@ class Maven(BuildSystem):
             self.module_root = True
             return
 
-        for m in modules.findall(f"{n}module"):
-            self.submodules.append(m.text)
+        self.submodules = [m for m in modules.findall(f"{n}module")]
+            
 
     def build(self):
         pass
@@ -91,7 +91,6 @@ class Gradle(BuildSystem):
             m = re.search("version\\s+[\'\"]+(.*)[\'\"]+", conf)
             if m is not None:
                 self.version = m.group(1)
-
 
     def parse_submodules(self):
         with open(os.path.join(self.absolute_path, "settings.gradle")) as f:
