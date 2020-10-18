@@ -1,15 +1,14 @@
 import os
 import shutil
 import pprint as pp
-import sys
 import zipfile
 import os.path as p
 
-from modules.git import Git
-from modules.bs.bs import ModulesFactory
+from src.git import Git
+from src.bs import ModulesFactory
 
 
-class App:
+class Depozyt:
     def __init__(self, config):
         self.config = config
         self.src_path = p.realpath("src")

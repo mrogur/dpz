@@ -1,7 +1,7 @@
 [dirs]
 zip = "zip"
 git = "git"
-src = "src"
+src = "sources"
 
 [git]
 repository = "https://github.com/mrogur"

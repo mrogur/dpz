@@ -1,5 +1,5 @@
 .idea/
-src/
 zip/
 git/
+sources/
 Pipfile.lock
