@@ -74,7 +74,6 @@ class Maven(BuildSystem):
             return
 
         self.submodules = [m for m in modules.findall(f"{n}module")]
-            
 
     def build(self):
         pass
@@ -83,7 +82,7 @@ class Maven(BuildSystem):
 class Gradle(BuildSystem):
     def parse_metadata(self):
         self.parse_version()
-        self.parse_submodules()
+        self.make_submodules(self.parse_submodules())
 
     def parse_version(self):
         with open(self.build_file_path) as f:
@@ -96,11 +95,14 @@ class Gradle(BuildSystem):
         with open(os.path.join(self.absolute_path, "settings.gradle")) as f:
             conf = f.read()
             pattern = "include\\s+[\'\"]+(.*)[\'\"]+"
-            self.submodules = [m.group(1) for m in re.finditer(pattern, conf)]
-
+            return [m.group(1) for m in re.finditer(pattern, conf)]
 
     def build(self):
         pass
+
+    def make_submodules(self, parsed_submodules):
+        for m in parsed_submodules:
+            self.submodules.append(Gradle(os.path.join(self.absolute_path, m), m, 'build.gradle'))
 
 
 class GradleGroovyDsl(Gradle):

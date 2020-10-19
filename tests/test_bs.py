@@ -12,5 +12,4 @@ class TestGradle(TestCase):
 
     def test_parse_submodules(self):
         g = Gradle(p.realpath(""), 'gradle-multi', 'build.gradle')
-        g.parse_submodules()
-        self.assertTrue(g.submodules)
+        self.assertTrue(g.parse_submodules())
