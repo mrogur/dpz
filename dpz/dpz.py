@@ -4,15 +4,16 @@ import pprint as pp
 import zipfile
 import os.path as p
 
-from src.bs import ModulesFactory
-from src.config import ConfigToml
-from src.git import Git
+from dpz.bs import ModulesFactory
+from dpz.config import ConfigToml
+from dpz.git import Git
 
 
 class Depozyt:
     def __init__(self, configuration):
         self.config = configuration
-        self.src_path = p.realpath("src")
+        self.realpath = p.realpath(config["dirs"]["src"])
+        self.src_path = self.realpath
 
     def pull_repositories(self):
         g = Git(self.config['dirs'])
@@ -21,7 +22,6 @@ class Depozyt:
             repository_url = git_config['repository']
             print(f"Cloning repo: {repository_url}")
             g.clone(repository_url, package)
-
 
     def unzip_projects(self):
         dirs = self.config["dirs"]

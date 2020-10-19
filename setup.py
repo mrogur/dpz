@@ -1,10 +1,11 @@
+import setuptools
 from setuptools import setup
 
 setup(
-    name='src',
+    name='dpz',
     version='0.0.1',
-    py_modules=['dpz'],
-    package_dir={'': 'src'},
+    py_modules=["bs", "config", "dpz", "git"],
+    package_dir={'': 'dpz'},
     url='',
     license='MIT',
     author='mrogur',
