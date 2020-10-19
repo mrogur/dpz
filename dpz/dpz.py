@@ -4,15 +4,15 @@ import pprint as pp
 import zipfile
 import os.path as p
 
-from dpz.bs import ModulesFactory
-from dpz.config import ConfigToml
-from dpz.git import Git
+from bs import ModulesFactory
+from config import ConfigToml
+from git import Git
 
 
 class Depozyt:
     def __init__(self, configuration):
         self.config = configuration
-        self.realpath = p.realpath(config["dirs"]["src"])
+        self.realpath = p.realpath(self.config["dirs"]["src"])
         self.src_path = self.realpath
 
     def pull_repositories(self):
