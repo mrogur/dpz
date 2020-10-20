@@ -1,5 +1,13 @@
+from pathlib import Path
+
 import toml
 import os.path as p
+
+PROJECT_ROOT = Path(__file__).parent.parent
+
+
+def set_project_root(root):
+    PROJECT_ROOT = root
 
 
 class ConfigToml:
