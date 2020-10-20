@@ -120,7 +120,6 @@ class Gradle(BuildSystem):
         pass
 
 
-
 class GradleGroovyDsl(Gradle):
     def __init__(self, absolute_path: str, module_name: str):
         super().__init__(absolute_path, module_name, "build.gradle")
