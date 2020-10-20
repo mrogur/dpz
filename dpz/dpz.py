@@ -15,13 +15,13 @@ class Depozyt:
         self.realpath = p.realpath(self.config["dirs"]["src"])
         self.src_path = self.realpath
 
-    def pull_repositories(self):
+    def pull_repositories(self, omit_existing: bool):
         g = Git(self.config['dirs'])
         git_config = self.config['git']
+        repository_url = git_config['repository']
+        print(f"Cloning repo: {repository_url}")
         for package in git_config['packages']:
-            repository_url = git_config['repository']
-            print(f"Cloning repo: {repository_url}")
-            g.clone(repository_url, package)
+            g.clone(repository_url, package, omit_existing)
 
     def unzip_projects(self):
         dirs = self.config["dirs"]
@@ -44,7 +44,7 @@ class Depozyt:
 
     def prepare_sources(self):
         pp.pprint(self.config)
-        self.pull_repositories()
+        self.pull_repositories(True)
         self.unzip_projects()
 
     def setup_directories(self):
