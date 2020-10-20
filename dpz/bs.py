@@ -84,7 +84,7 @@ class Maven(BuildSystem):
             self.module_root = True
             return
 
-        self.make_submodules(modules.findall(f"{n}module"))
+        self.make_submodules([m.text for m in modules.findall(f"{n}module")])
 
     def build(self):
         pass
