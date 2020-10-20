@@ -25,6 +25,13 @@ class BuildSystem:
     def parse_metadata(self):
         pass
 
+    def parse_submodules(self):
+        pass
+
+    def make_submodules(self, parsed_submodules):
+        for m in parsed_submodules:
+            self.submodules.append(ModulesFactory.get_build_system(os.path.join(self.absolute_path, m), m))
+
     def get_modules(self) -> list:
         if self.project_name is None:
             self.parse_metadata()
@@ -77,7 +84,7 @@ class Maven(BuildSystem):
             self.module_root = True
             return
 
-        self.submodules = [m for m in modules.findall(f"{n}module")]
+        self.make_submodules(modules.findall(f"{n}module"))
 
     def build(self):
         pass
@@ -112,9 +119,6 @@ class Gradle(BuildSystem):
     def build(self):
         pass
 
-    def make_submodules(self, parsed_submodules):
-        for m in parsed_submodules:
-            self.submodules.append(ModulesFactory.get_build_system(os.path.join(self.absolute_path, m), m))
 
 
 class GradleGroovyDsl(Gradle):
