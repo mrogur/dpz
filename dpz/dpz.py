@@ -4,9 +4,9 @@ import pprint as pp
 import zipfile
 import os.path as p
 
-from bs import ModulesFactory
-from config import ConfigToml
-from git import Git
+from .bs import ModulesFactory
+from .config import ConfigToml
+from .git import Git
 
 
 class Depozyt:
@@ -38,7 +38,8 @@ class Depozyt:
     def build(self):
         pass
 
-    def clean(self, dest):
+    @staticmethod
+    def clean(dest):
         shutil.rmtree(dest, ignore_errors=True)
 
     def prepare_sources(self):
@@ -55,7 +56,6 @@ class Depozyt:
     def collect_modules(self) -> list:
         out = []
         for directory in os.listdir(p.realpath(self.config["dirs"]["src"])):
-            print(f"Processing {directory}")
             out.append(ModulesFactory.get_build_system(os.path.join(self.src_path, directory), directory))
         return out
 

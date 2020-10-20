@@ -6,6 +6,7 @@ from pathlib import Path
 
 class BuildSystem:
     def __init__(self, absolute_path: str, module_name: str, build_file_name: str):
+        print(f"Making module at {absolute_path} with name {module_name}")
         self.module_name = module_name
         self.absolute_path = absolute_path
         self.build_file_name = build_file_name
@@ -101,7 +102,7 @@ class Gradle(BuildSystem):
                 self.version = m.group(1)
 
     def parse_submodules(self):
-        with open(os.path.join(self.absolute_path, self.build_file_name)) as f:
+        with open(os.path.join(self.absolute_path, self.gradle_settings)) as f:
             conf = f.read()
             return [m.group(1) for m in re.finditer(self.module_pattern, conf)]
 
