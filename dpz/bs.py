@@ -102,9 +102,12 @@ class Gradle(BuildSystem):
                 self.version = m.group(1)
 
     def parse_submodules(self):
-        with open(os.path.join(self.absolute_path, self.gradle_settings)) as f:
-            conf = f.read()
-            return [m.group(1) for m in re.finditer(self.module_pattern, conf)]
+        try:
+            with open(os.path.join(self.absolute_path, self.gradle_settings)) as f:
+                conf = f.read()
+                return [m.group(1) for m in re.finditer(self.module_pattern, conf)]
+        except FileNotFoundError:
+            return []
 
     def build(self):
         pass
