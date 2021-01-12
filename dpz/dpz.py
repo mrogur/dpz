@@ -63,8 +63,6 @@ class Depozyt:
         modules = self.collect_modules()
         self.build(modules)
 
-    # [ x for x in range(20) if x % 2 == 0]
-    # print(number_list)
     def build(self, modules: [BuildSystem]):
         for m in modules:
             print(f"Building module {m.module_name} - {m.version}")
