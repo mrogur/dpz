@@ -4,7 +4,7 @@ import pprint as pp
 import zipfile
 import os.path as p
 
-from .bs import ModulesFactory
+from .bs import ModulesFactory, BuildSystem
 from .config import ConfigToml
 from .git import Git
 
@@ -35,9 +35,6 @@ class Depozyt:
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
                 zip_ref.extractall(p.realpath(source_path))
 
-    def build(self):
-        pass
-
     @staticmethod
     def clean(dest):
         shutil.rmtree(dest, ignore_errors=True)
@@ -64,14 +61,14 @@ class Depozyt:
         self.setup_directories()
         self.prepare_sources()
         modules = self.collect_modules()
-        self.buid(modules)
+        self.build(modules)
 
     # [ x for x in range(20) if x % 2 == 0]
     # print(number_list)
-    def buid(self, modules):
-       #root_modules = [mod for mod in modules if mod. ]
-       print(modules)
-
+    def build(self, modules: [BuildSystem]):
+        for m in modules:
+            print(f"Building module {m.module_name} - {m.version}")
+            m.build()
 
 
 if __name__ == '__main__':
@@ -79,3 +76,4 @@ if __name__ == '__main__':
     config = s.load()
     app = Depozyt(config)
     app.run()
+
