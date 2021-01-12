@@ -56,13 +56,22 @@ class Depozyt:
     def collect_modules(self) -> list:
         out = []
         for directory in os.listdir(p.realpath(self.config["dirs"]["src"])):
+            print(f"appending module {directory}")
             out.append(ModulesFactory.get_build_system(os.path.join(self.src_path, directory), directory))
         return out
 
     def run(self):
         self.setup_directories()
         self.prepare_sources()
-        self.collect_modules()
+        modules = self.collect_modules()
+        self.buid(modules)
+
+    # [ x for x in range(20) if x % 2 == 0]
+    # print(number_list)
+    def buid(self, modules):
+       #root_modules = [mod for mod in modules if mod. ]
+       print(modules)
+
 
 
 if __name__ == '__main__':

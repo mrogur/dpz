@@ -32,13 +32,11 @@ class BuildSystem:
         for m in parsed_submodules:
             self.submodules.append(ModulesFactory.get_build_system(os.path.join(self.absolute_path, m), m))
 
-    def get_modules(self) -> list:
+    def get_modules(self):
         if self.project_name is None:
             self.parse_metadata()
 
-        if self.is_module_root():
-            return [self]
-        # return ModulesFactory.get_build_system(os.path.join(self.absolute_path, self.module_name))
+        return self
 
     def get_version(self):
         pass
@@ -67,8 +65,7 @@ class Maven(BuildSystem):
         super().__init__(absolute_path, module_name, "pom.xml")
 
     def is_module_root(self):
-        if self.module_root is None:
-            return self.module_root
+        return self.module_root
 
     def parse_metadata(self):
         tree = xml.etree.ElementTree.parse(self.build_file_path)
@@ -100,6 +97,9 @@ class Gradle(BuildSystem):
     def parse_metadata(self):
         self.parse_version()
         self.make_submodules(self.parse_submodules())
+        if len(self.submodules) == 0:
+            self.module_root = True
+            return
 
     def parse_version(self):
         with open(self.build_file_path) as f:
